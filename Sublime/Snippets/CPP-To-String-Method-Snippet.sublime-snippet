@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+string to_string(${1:node} a)
+{
+	#ifdef DEBUG
+		string res;
+		$0
+		return res;
+	#endif
+	return "";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cto_string</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

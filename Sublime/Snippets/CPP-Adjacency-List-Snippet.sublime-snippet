@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+typedef vector<vector<pii>> graph;
+graph adj;
+void add_edge(graph &a, int u, int v, int w = 1, bool dir = 0)
+{
+    a[u].push_back({v, w});
+    if(!dir) a[v].push_back({u, w});
+}
+
+void clearAll(int n)
+{
+	adj.clear();
+	adj.resize(n + 1);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cadjlist</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

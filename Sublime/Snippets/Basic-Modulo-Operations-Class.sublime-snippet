@@ -1,0 +1,150 @@
+<snippet>
+	<content><![CDATA[
+class Mint {
+private:
+	// Modular arithmetic operations
+	int64_t sub(int64_t a, int64_t b) {return md(md(a) - md(b));}
+	int64_t sum(int64_t a, int64_t b) {return md(md(a) + md(b));}
+	int64_t mul(int64_t a, int64_t b) {return md(md(a) * md(b));}
+
+	int64_t md(int64_t a)
+	{
+		if(a < 0) a += MOD * (-1 * a / MOD + 1);
+		return a >= MOD ? a % MOD : a;
+	}
+
+public:
+	// Properties
+	int64_t val;
+	int32_t MOD;
+
+	// Constructors
+	Mint(const int64_t &a = 0, const int32_t M = ${1:1e9 + 7}) {
+		MOD = M;
+		val = this -> md(a);
+	}
+
+	Mint(const Mint &a) {
+		MOD = a.MOD;
+		val = this -> md(a.val);
+	}
+
+	// Methods
+	void setMod(const int32_t &M) {MOD = M;}
+	
+	Mint power(int n) {
+		Mint a(val, MOD);
+		Mint res(1, MOD);
+
+		while(n > 0) {
+			if(n & 1) res *= a;
+
+			a *= a;
+			n >>= 1;
+		}
+		return res;
+	}
+
+	// Multiplication
+	friend Mint operator *(Mint &lhs, const Mint &rhs) {
+		lhs.val = lhs.mul(lhs.val, rhs.val);
+		return lhs;
+	}
+	friend Mint operator *(Mint &lhs, const int64_t &rhs) {
+		return lhs * Mint(rhs);
+	}
+	friend Mint operator *=(Mint &lhs, const Mint &rhs) {
+		return lhs = lhs * rhs;
+	}
+	friend Mint operator *=(Mint &lhs, const int64_t &rhs) {
+		return lhs = lhs * rhs;
+	}
+
+	// Substraction
+	friend Mint operator -(Mint &lhs, const Mint &rhs) {
+		lhs.val = lhs.sub(lhs.val, rhs.val);
+		return lhs;
+	}
+	friend Mint operator -(Mint &lhs, const int64_t &rhs) {
+		return lhs - Mint(rhs);
+	}
+	friend Mint operator -=(Mint &lhs, const Mint &rhs) {
+		return lhs = lhs - rhs;
+	}
+	friend Mint operator -=(Mint &lhs, const int64_t &rhs) {
+		return lhs = lhs - rhs;
+	}
+	friend Mint operator --(Mint &lhs) {
+		return lhs - 1;
+	}
+	Mint operator --() {
+		*this = *this - 1;
+		Mint res = *this;
+		return res;
+	}
+	Mint operator --(int) {
+		Mint res = *this;
+		*this = *this - 1;
+		return res;
+	}
+
+	// Addition
+	friend Mint operator +(Mint &lhs, const Mint &rhs) {
+		lhs.val = lhs.sum(lhs.val, rhs.val);
+		return lhs;
+	}
+	friend Mint operator +(Mint &lhs, const int64_t &rhs) {
+		return lhs + Mint(rhs);
+	}
+	friend Mint operator +=(Mint &lhs, const Mint &rhs) {
+		return lhs = lhs + rhs;
+	}
+	friend Mint operator +=(Mint &lhs, const int64_t &rhs) {
+		return lhs = lhs + rhs;
+	}
+	Mint operator ++() {
+		*this = *this + 1;
+		Mint res = *this;
+		return res;
+	}
+	Mint operator ++(int) {
+		Mint res = *this;
+		*this = *this + 1;
+		return res;
+	}
+
+	// Redirection operators
+	friend ostream& operator <<(ostream &out, const Mint &a) {
+		return out << a.val;
+	}
+	friend istream& operator >>(istream &in, Mint &a) {
+		return in >> a.val;
+	}
+
+	// Comparison operators
+	friend bool operator <(const Mint &lhs, const Mint &rhs) {
+		return lhs.val < rhs.val;
+	}
+	friend bool operator >(const Mint &lhs, const Mint &rhs) {
+		return lhs.val > rhs.val;
+	}
+	friend bool operator ==(const Mint &lhs, const Mint &rhs) {
+		return lhs.val == rhs.val;
+	}
+	friend bool operator !=(const Mint &lhs, const Mint &rhs) {
+		return !(lhs.val == rhs.val);
+	}
+	friend bool operator <=(const Mint &lhs, const Mint &rhs) {
+		return lhs < rhs || lhs == rhs;
+	}
+	friend bool operator >=(const Mint &lhs, const Mint &rhs) {
+		return lhs > rhs || lhs == rhs;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  	<description>Mint wrapper class</description>
+	<tabTrigger>cmodulo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

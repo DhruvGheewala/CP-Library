@@ -1,0 +1,27 @@
+<snippet>
+	<content><![CDATA[
+const int mod = ${1:998244353};
+int md(int a) {
+	a += (a < 0 ? mod : 0);
+	return a >= mod ? a % mod : a;
+}
+
+template <typename T>
+T mul(T a) {return md(a);}
+
+template <typename T, typename... Args>
+T mul(T a, Args... args) {return md(a * mul(args...));}
+
+template <typename T>
+T sum(T a) {return md(a);}
+
+template <typename T, typename... Args>
+T sum(T a, Args... args) {return md(a + sum(args...));}
+
+int sub(int a, int b) {return sum(a, -b);}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cmodulo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

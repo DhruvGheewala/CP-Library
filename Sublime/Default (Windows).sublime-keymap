@@ -1,0 +1,66 @@
+[
+	{
+		"keys": ["ctrl+b"], 
+		"command":"build"
+	},
+
+	{
+		"keys": ["ctrl+alt+b"], 
+		"command":"cfcompiler"
+	},
+
+	{
+		"keys": ["ctrl+alt+c"], 
+		"command":"cancel_build"
+	},
+	
+	{
+		"keys": ["ctrl+alt+s"],
+		"command": "quote"
+	},
+
+	{
+		"keys": ["ctrl+alt+p"],
+		"command": "toggle_side_bar"
+	},
+
+	{
+		"keys": ["ctrl+alt+n"],
+		"command": "new_snippet"
+	},
+
+	{
+		"keys": ["ctrl+alt+o"],
+		"command": "open_dir {\"dir\": \"$packages\"}"
+	},
+
+	{
+		"keys": ["ctrl+shift+o"],
+		"command": "open_file",
+		"args": {"file": "C:/Users/ViralChoksi/AppData/Roaming/Sublime Text 3/Packages/User/Template-cbase-Snippet.sublime-snippet"}
+	},
+
+	{
+		"keys": ["ctrl+alt+i"],
+		"command": "coolformat",
+		"args": {"action": "quickFormat"}
+	},
+
+	{
+		"keys": ["ctrl+alt+shift+c"],
+        "command": "sublime_highlight",
+        "args" : { 
+            "target": "clipboard",
+            "output_type": "html"
+        }
+	},
+
+	{
+		"keys": ["ctrl+alt+shift+s"],
+        "command": "sublime_highlight",
+        "args" : { 
+            "target": "external",
+            "output_type": "html"
+        }
+	},
+]

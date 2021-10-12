@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+/****
+  ** Time Complexity : O($1)
+  ** Space Complexity : O($2)
+****/
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>stampcomplexity</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.c++</scope> -->
+</snippet>

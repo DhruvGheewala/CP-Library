@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+/***
+   * __builtin_clz(num) --> clz = count leading zero’s
+   * __builtin_ctz(num) --> ctz = count trailing zeros
+   * inline int RightOne(int x){return (__builtin_ctz(x)+1);}
+   * inline int LeftOne(int x){return (__builtin_clz(INT_MAX) - __builtin_clz(x)+1);}
+***/
+
+int pow2(int n) {return 1ll << n;}
+int setBit(int x, int pos) {return x |= pow2(pos);}
+int resetBit(int x, int pos) {return x &= ~pow2(pos);}
+
+bool atpos(int x, int pos)
+{
+    bool res = ((x & pow2(pos)) != 0);
+    return res;
+}
+
+const vector<int> num_to_bits = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4};
+int popcount(int n)
+{
+    int nibble, res = 0;
+    while(true) {
+        nibble = n & 0xf;
+        res += num_to_bits[nibble];
+        n >>= 4;
+        if(n == 0) break;
+    }
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <description>Bit manipulation snippet</description>
+	<tabTrigger>cbit</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

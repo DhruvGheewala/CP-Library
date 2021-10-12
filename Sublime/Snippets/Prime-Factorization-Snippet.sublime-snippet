@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+int primeFactorization(int n, int k)
+{
+    int cnt = 0;
+    for(int i : {2, 3, 5})
+    {
+        while(n % i == 0)
+        {
+            n /= i;
+            cnt++;
+            if(cnt >= k)
+                return cnt;
+        }
+    }
+
+    static array<int, 8> increments = {4, 2, 4, 2, 4, 6, 2, 6};
+    int cur = 0;
+    for(int i = 7 ; i * i <= n ; i += increments[cur++])
+    {
+        while(n % i == 0)
+        {
+            n /= i;
+            cnt++;
+            if(cnt >= k)
+                return cnt;
+        }
+        if(cur == 8)
+            cur = 0;
+    }
+
+    if(n > 1)
+        cnt++;
+
+    return cnt;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cprimefact</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

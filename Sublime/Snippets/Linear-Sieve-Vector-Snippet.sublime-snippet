@@ -1,0 +1,58 @@
+<snippet>
+  <content><![CDATA[
+vector<int> lp, pf;
+const int mxs = 10000000;  //  1 * 10^7, mxs <= 3.3 * 10^7
+
+void build_sieve(int maximum = mxs + 1) {
+    lp.assign(maximum, -1);
+    lp[0] = lp[1] = 0;
+
+    for(int i = 2; i < maximum; i++) {
+        // 2 <= lp[i] <= i, 2 <= i < maximum
+        if(lp[i] == -1) {
+            lp[i] = i;
+            pf.emplace_back(i);
+        }
+
+        // lp[i] will be changed only once
+        // so time complexity will be linear
+        for(int p: pf) {
+            if(p > lp[i]) break;
+            if(i * p >= maximum) break;
+            lp[i * p] = p;
+        }
+    }
+}
+
+bool linearSieveBuilder = []() -> bool {build_sieve();return true;}();
+
+bool isPrime(int n) {
+    if(!linearSieveBuilder) build_sieve();
+    return lp[n] == n;
+}
+
+vector<pair<int, int>> sfact(int n) {
+    if(!linearSieveBuilder) build_sieve();
+    
+    vector<pair<int, int>> res;
+    if(n <= 1) return res;
+
+    while(lp[n] != n) {
+        if(lp[n] == 0) return res;
+        int p = lp[n], expo = 0;
+        while(n % p == 0) {
+            n /= p;
+            expo++;
+        }
+        res.push_back({p, expo});
+    }
+    res.push_back({n, 1});
+    return res;
+}
+
+]]></content>
+  <tabTrigger>csieve</tabTrigger>
+  <description>Linear Sieve - Vector</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope >source.c++</scope >
+</snippet>

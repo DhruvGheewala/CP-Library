@@ -1,0 +1,58 @@
+<snippet>
+	<content><![CDATA[
+struct query {
+    int l, r, id, eval;
+    static const int bucket_size = 800;
+    ${1:// define variables}
+    
+    query(int _l, int _r, int _id) : l(_l), r(_r), id(_id) {}
+    inline friend bool operator <(const query &lhs, const query &rhs)
+    {
+        int lb, rb;
+        lb = lhs.l / bucket_size;
+        rb = rhs.l / bucket_size;
+        return lb != rb ? lb < rb : lb & 1 ? lhs.r < rhs.r : rhs.r < lhs.r;
+    }
+};
+
+void mo(vi &arr, vector<query> &q)
+{
+    /**** Fixed ****/
+    vi answer(q.size(), -1);
+    int l, r, n, ans, bucket;
+    n = arr.size();
+    sort(all(q));
+    /**** Fixed ****/
+
+    /**** Operations ****/
+    auto add = [&](int id, int &res) {
+        ${2:// need to be changed !!}
+    };
+
+    auto remove = [&](int id, int &res) {
+        ${3:// need to be changed !!}
+    };
+    /**** Operations ****/
+    
+    /**** Fixed ****/
+    r = -1;
+    l = ans = 0;
+    for(int i = 0; i < q.size(); i++) {
+        while(l < q[i].l) remove(l++, ans);
+        while(l > q[i].l) add(--l, ans);
+        while(r < q[i].r) add(++r, ans);
+        while(r > q[i].r) remove(r--, ans);
+        answer[q[i].id] = ans;
+    }
+    /**** Fixed ****/
+
+    /**** Printing Answer ****/    
+    for(int i = 0 ; i < q.size() ; i++)
+        cout << answer[i] << endl;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cmosstd</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

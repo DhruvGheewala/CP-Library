@@ -1,0 +1,47 @@
+<snippet>
+    <content><![CDATA[
+class myhash
+{
+
+  private:
+    inline static uint64_t xor_shift(const uint64_t x, const int k)
+    {
+        return x ^ ( x >> k );
+    }
+
+    inline static uint64_t xor_shift_multiply(const uint64_t x, const int k, const uint64_t y)
+    {
+        return xor_shift(x, k) * y;
+    }
+    
+    inline static uint64_t fxn(uint64_t x)
+    {
+        x += 0x9e3779b97f4a7c15;
+        x = xor_shift_multiply(x, 30, 0xbf58476d1ce4e5b9);
+        x = xor_shift_multiply(x, 27, 0x94d049bb133111eb);
+        return xor_shift(x, 31);
+    }
+
+  public:
+    size_t operator ()(uint64_t x) const
+    {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return fxn(x + FIXED_RANDOM);
+    }
+};
+
+/****
+  ** #define SAFE_SET(cont, key) typedef unordered_##cont<key, myhash> safe_##cont
+  ** #define SAFE_MAP(cont, key, val) typedef unordered_##cont<key, val, myhash> safe_##cont
+  ** SAFE_SET(set, int);
+  ** SAFE_SET(multiset, int);
+  ** SAFE_MAP(map, int, bool);
+  ** SAFE_MAP(multimap, int, bool);
+****/
+
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>chash</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

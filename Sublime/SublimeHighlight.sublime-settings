@@ -1,0 +1,7 @@
+{
+    "theme": "vs",
+    "noclasses": true,
+    "fontface": "Menlo",
+    // "stripall": true,
+    "tabsize": 4,
+}

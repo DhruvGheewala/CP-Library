@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+set<int> topoUtil;
+vi tsort, indeg;
+int cnt, last_inserted;
+vector<vector<int>> adj;
+void add_edge(vector<vector<int>> &a, int u, int v, bool dir = 0)
+{
+    a[u].push_back(v);
+    if(!dir)
+        a[v].push_back(u);
+}
+
+void clearAll(int n)
+{
+    adj.resize(n + 1);
+    last_inserted = cnt = 0;
+    tsort.resize(n);
+    indeg.resize(n + 1, 0);
+    topoUtil.clear();
+}
+
+// true if there is no cycle else false
+bool toposort()
+{
+    int n = adj.size() - 1;
+    for(int u = 1 ; u <= n ; u++)
+        for(int v : adj[u])
+            indeg[v]++;
+    
+    for(int i = 1 ; i <= n ; i++)
+        if(indeg[i] == 0)
+            topoUtil.insert(i);
+
+    while(!topoUtil.empty())
+    {
+        int u = *topoUtil.begin();
+        topoUtil.erase(topoUtil.begin());
+        tsort[last_inserted++] = u;
+
+        for(int v : adj[u])
+        {
+            indeg[v]--;
+            if(indeg[v] == 0)
+                topoUtil.insert(v);
+        }
+    }
+    return last_inserted == n;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ctoposort</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,100 @@
+<snippet>
+    <content><![CDATA[
+template<typename T>
+class matrix {
+public:
+    vector<vector<T>> mat;
+    int row, col;
+    
+    matrix(int n)
+    {
+        row = col = n;
+        mat.assign(n, vector<T>(n, 0));
+    }
+
+    matrix(int n, int m)
+    {
+        row = n;
+        col = m;
+        mat.assign(n, vector<T>(m, 0));
+    }
+    
+    void makeiden()
+    {
+        int n = min(row, col);
+        for(int i = 0 ; i < n ; i++)
+            mat[i][i] = 1;
+    }
+
+    friend matrix operator *=(matrix &lhs, const matrix &rhs) {return lhs = lhs * rhs;}
+    friend matrix operator *(const matrix &lhs, const matrix &rhs)
+    {
+        assert(lhs.col == rhs.row);
+        matrix ans(lhs.row, rhs.col);
+        T total, a, b;
+        
+        for(int i = 0; i < lhs.row; i++) {
+            for(int j = 0; j < rhs.col; j++) {
+                total = 0;
+                for(int k = 0; k < lhs.col; k++) {
+                    a = lhs.mat[i][k];
+                    b = rhs.mat[k][j];
+                    total += a * b;
+                }
+                ans.mat[i][j] = total;
+            }
+        }
+        return ans;
+    }
+
+    inline vector<T> &operator [](int r)
+    {
+        assert(r < row);
+        return mat[r];
+    }
+};
+
+template<typename T>
+inline istream &operator >>(istream &in, matrix<T> &a) {return in >> a.mat;}
+
+template<typename T>
+inline ostream &operator <<(ostream &out, matrix<T> &a)
+{
+    for(int i = 0 ; i < a.row ; i++) {
+        for(int j = 0 ; j < a.col ; j++)
+            out << a[i][j] << " ";
+        out << endl;
+    }
+    return out;
+}
+
+template<typename T>
+string to_string(const matrix<T> &a)
+{
+#ifdef DEBUG
+    return '[' + to_string(a.mat) + ']';
+#endif
+    return "";
+}
+
+template<typename T>
+void power(matrix<T> &m, int n)
+{
+    assert(m.row == m.col);
+    matrix<T> ans(m.row, m.col);
+    ans.makeiden();
+    
+    while(n > 0) {
+        
+        if(n & 1) ans *= m;
+        m *= m;
+        n >>= 1;
+    }
+    m = ans;
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>cmatrix</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

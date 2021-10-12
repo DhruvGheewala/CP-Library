@@ -1,0 +1,48 @@
+<snippet>
+    <content><![CDATA[
+/****
+  ** adj is required, which denotes the graph
+  ** Time Complexity : O(n)
+  ** Space Complexity : O(n)
+****/
+
+vector<bool> vis_cycle, in_stack_cycle;
+bool isCyclicUtil(int u)
+{
+    bool res = false;
+    vis_cycle[u] = in_stack_cycle[u] = true;
+    for(int v: adj[u])
+    {
+        if(u == v) {
+            return true;  // Self loop
+        } else if(!vis_cycle[v]) {
+            res |= isCyclicUtil(v);
+        } else if(in_stack_cycle[v]) {
+            return true;
+        }
+    }
+    in_stack_cycle[u] = false;
+    return res;
+}
+
+bool isCyclic(int root = -1)
+{
+    int n = adj.size();
+    vis_cycle.assign(n, false);
+    in_stack_cycle.assign(n, false);
+
+    if(root != -1) return isCyclicUtil(root);
+
+    for(int i = 0; i < n; i++) {
+        if(isCyclicUtil(i))
+            return true;
+    }
+    return false;
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>ccycle</tabTrigger>
+    <description>Detect Cycle in Directed Graph</description>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

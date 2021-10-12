@@ -1,0 +1,26 @@
+<snippet>
+  <content><![CDATA[
+const int mxs = 16000000;  //  1.6 * 10^7, mxs <= 2.8 * 10^7
+bitset<mxs + 1> sieve = bitset<mxs + 1>().set();
+bool isPrime(int n) {return sieve[n];}
+
+void build_sieve(int maximum = mxs) {
+    sieve.reset(0);
+    sieve.reset(1);
+
+    for(int i = 2 ; i * i <= maximum ; i++) {
+        if(isPrime(i)) {
+            for(int j = i * i ; j <= maximum ; j += i)
+                sieve.reset(j);
+        }
+    }
+}
+
+bool bitsetSieveBuilder = []() -> bool {build_sieve();return true;}();
+
+]]></content>
+  <tabTrigger>csieve</tabTrigger>
+  <description>Classical Sieve - Bitset</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope >source.c++</scope >
+</snippet>

@@ -1,0 +1,52 @@
+<snippet>
+	<content><![CDATA[
+void sqrtDecompostion(vi &a, vector<pii> &queries)
+{
+    int l, r, n, q, i, j, lb, rb, ans, last, blk_size;
+    n = a.size();
+    q = queries.size();
+    blk_size = floor(sqrt(n)) + 1;
+    vi block(blk_size);
+    
+    // preprocessing
+    for(i = 0 ; i < n ; i++)
+        block[i / blk_size] += a[i];
+
+    for(i = 0 ; i < q ; i++) {
+        
+        /**** Variable ****/
+        ans = 0;
+        l = queries[i].ff;
+        r = queries[i].ss;
+        /**** Variable ****/
+
+        /**** answering the queries ****/        
+        lb = l / blk_size;
+        rb = r / blk_size;
+        
+        if(lb == rb) {
+            // lies in same block
+            for(j = l ; j <= r ; j++)
+                ans += a[j];
+            cout << ans << endl;
+            continue;
+        }
+        // lies in different blocks
+        last = (lb + 1) * blk_size - 1;
+        for(j = l ; j <= last ; j++)
+            ans += a[j];
+        for(j = lb + 1 ; j < rb ; j++)
+            ans += block[j];
+        for(j = rb * blk_size ; j <= r ; j++)
+            ans += a[j];
+
+        cout << ans << endl;
+        /**** answering the queries ****/
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>csqrtdecomp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

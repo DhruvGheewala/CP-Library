@@ -1,0 +1,57 @@
+<snippet>
+  <content><![CDATA[
+vector<int> lp;
+const int mxs = 5000000;  //  5 * 10^6, mxs <= 2.6 * 10^7
+
+void build_sieve(int maximum = mxs + 1) {
+    lp.assign(maximum, -1);
+    lp[0] = lp[1] = 0;
+
+    for(int i = 2; i * i < maximum; i++) {
+        if(lp[i] == -1) {
+            lp[i] = i;
+            for(int j = i * i; j < maximum; j += i) {
+                if(lp[j] == -1)
+                    lp[j] = i;
+            }
+        }
+    }
+
+    for(int i = sqrt(maximum); i < maximum; i++) {
+        if(lp[i] == -1)
+            lp[i] = i;
+    }
+}
+
+bool classicalSieveBuilder = []() -> bool {build_sieve();return true;}();
+
+bool isPrime(int n) {
+    if(!classicalSieveBuilder) build_sieve();
+    return lp[n] == n;
+}
+
+vector<pair<int, int>> sfact(int n) {
+    if(!classicalSieveBuilder) build_sieve();
+    
+    vector<pair<int, int>> res;
+    if(n <= 1) return res;
+    
+    while(lp[n] != n) {
+        if(lp[n] == 0) return res;
+        int p = lp[n], expo = 0;
+        while(n % p == 0) {
+            n /= p;
+            expo++;
+        }
+        res.push_back({p, expo});
+    }
+    res.push_back({n, 1});
+    return res;
+}
+
+]]></content>
+  <tabTrigger>csieve</tabTrigger>
+  <description>Classical Sieve - Vector</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope >source.c++</scope >
+</snippet>

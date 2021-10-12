@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+int l, r, last;
+last = 0;
+for(l = 0 ; l < n ; l++) {
+    
+    if(l != 0) {
+        ${1:// remove l - 1 th entry...}
+    }
+
+    for(r = last ; r < n ; r++) {
+        ${2:// run this loop untill it is valid...}
+    }
+    last = r;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>c2p</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

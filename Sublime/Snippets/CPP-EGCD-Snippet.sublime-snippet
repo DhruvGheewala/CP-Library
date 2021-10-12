@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+int gcd(int a, int b) {return gcd(b, a % b);}
+// a * x + b * y = gcd(a, b)
+int gcd(int a, int b, int &x, int &y)
+{
+	if(b == 0) {
+		x = 1;
+		y = 0;
+		return a;
+	}
+	
+	int xg, yg;
+	int g = gcd(b, a % b, xg, yg);
+	x = yg;
+	y = xg - yg * (a / b);
+	return g;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cgcd</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

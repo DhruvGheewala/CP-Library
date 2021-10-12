@@ -1,0 +1,19 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AceJump",
+		"CoolFormat",
+		"CppFastOlympicCoding",
+		"Dracula Color Scheme",
+		"FileIcons",
+		"Highlight",
+		"MarkdownPreview",
+		"MarkdownTOC",
+		"Package Control",
+		"Trimmer"
+	]
+}

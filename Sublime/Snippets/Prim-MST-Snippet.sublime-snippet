@@ -1,0 +1,102 @@
+<snippet>
+    <content><![CDATA[
+/****
+  ** Time Complexity : O(E * LogV)
+  ** Space Complexity : O(V + E)
+****/
+
+const int INF = LLONG_MAX - 2LL * INT_MAX;
+struct edge
+{
+    int u, v, w;
+
+    friend bool operator <(const edge &lhs, const edge &rhs)
+    {
+        if(lhs.w == rhs.w)
+        {
+            if(lhs.u == rhs.u)
+                return lhs.v > rhs.v;
+            return lhs.u > rhs.u;
+        }
+        return lhs.w > rhs.w;
+    }
+};
+
+string to_string(const edge &a)
+{
+    #ifdef DEBUG
+        string res = to_string(make_pair(a.u, a.v)) + " --> " + to_string(a.w);
+        return res;
+    #endif
+        return "";
+}
+
+vector<vector<pii>> adj;
+priority_queue<edge> pq;
+vector<edge> mst;
+vector<bool> vis;
+
+void add_edge(vector<vector<pii>> &a, int u, int v, int w, bool dir = 0)
+{
+    a[u].push_back({v, w});
+    if(!dir)
+        a[v].push_back({u, w});
+}
+
+void fill_adj(int u)
+{
+    for(const auto &v : adj[u])
+    {
+        if(!vis[v.ff])
+            pq.push({u, v.ff, v.ss});
+    }
+}
+
+int Prims(int root = 1)
+{
+    int n = adj.size() - 1;
+    int cost, edge;
+    cost = edge = 0;
+
+    fill_adj(root);
+    vis[root] = true;
+
+    while(!pq.empty())
+    {
+        auto x = pq.top();
+        pq.pop();
+
+        if(vis[x.v])
+            continue;
+
+        vis[x.v] = true;
+        mst[edge] = {x.u, x.v, x.w};
+        cost += x.w;
+        edge++;
+
+        if(edge == n - 1)
+            break;
+
+        fill_adj(x.v); 
+    }
+
+    if(edge < n - 1)
+        return INF;
+    return cost;
+}
+
+void clearAll(int n)
+{
+    adj.clear();
+    adj.resize(n + 1);
+
+    mst.resize(n - 1);
+    vis.assign(n + 1, false);
+    pq = priority_queue<edge>();
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>cprims</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

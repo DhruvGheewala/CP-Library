@@ -1,0 +1,246 @@
+<snippet>
+    <content><![CDATA[
+struct segData {
+    // variables
+    ${1:int val;}
+
+    // Default value
+    segData() : ${2:val(INT_MAX)} {};
+    segData(${3:int _val}) : ${4:val(_val)} {};
+    
+    friend bool operator ==(const segData &lhs, const segData &rhs) {return ${5:lhs.val == rhs.val};}
+};
+
+string to_string(const segData &a)
+{
+    #ifdef DEBUG
+        string res = '<' + to_string(a.val);
+        // res += ", " + to_string(a.val);
+        res += '>';
+        return res;
+    #endif
+    return "";
+}
+
+struct SegmentTree {
+private:
+    // variables
+    int N;
+    vi lazy;
+    int l, r, pos, val;  // temporary variables
+    vector<segData> tree;
+    const segData identity = segData();
+
+    // fxns for left and right child
+    int left(int n) {return n << 1;}
+    int right(int n) {return (n << 1) | 1;}
+
+    // fxn that contains the operation to be performed !!
+    void merge(const segData &lhs, const segData &rhs, segData &res) {${6:res.val = lhs.val + rhs.val;}}
+
+    // values to be stored for leaf nodes
+    void value(const segData &node, segData &res) {${7:res.val = node.val % 2;}}
+    
+    // will build segment tree acc. to merge fxn
+    void build(int p, int L, int R)
+    {
+        if(L == R) {
+            value(arr[L], tree[p]);
+            return;
+        }
+        
+        int mid = (L + R) / 2;
+        build(left(p), L, mid);
+        build(right(p), mid + 1, R);
+        merge(tree[left(p)], tree[right(p)], tree[p]);
+    }
+
+    // propogation logic...
+    void propogate(int p, int _val) {${8:lazy[p] += _val;}}
+    
+    // propogating to child...
+    void propogate(int p)
+    {
+        propogate(left(p), lazy[p]);
+        propogate(right(p), lazy[p]);
+    }
+
+    // lazy propogation logic
+    void propogate(int p, int L, int R)
+    {
+        // if there is no remaining lazy updates
+        if(lazy[p] == ${9:0})
+            return;
+
+        // updating current level
+        ${10:tree[p].val += lazy[p] * (R - L + 1);}
+
+        // propogating...
+        if(L != R) propogate(p);
+        lazy[p] = ${9:0};  // reseting
+    }
+
+    // give the answer for given range -> [l, r]
+    segData answer(int p, int L, int R)
+    {
+        propogate(p, L, R);
+        if(l > R || r < L) return identity;  // outside query range
+        if(L >= l && R <= r) return tree[p];  // inside query range
+        
+        int mid = (L + R) / 2;
+        segData res, lhs, rhs;
+        lhs = answer(left(p), L, mid);
+        rhs = answer(right(p), mid + 1, R);
+        merge(lhs, rhs, res);
+        return res;
+    }
+
+    // point update(use only when there is no lazy propogation done)
+    void point_update(int p, int L, int R)
+    {
+        if(L == R) {
+            value(arr[L], tree[p]);
+            return;
+        }
+        
+        int mid = (L + R) / 2;
+        if(pos <= mid) point_update(left(p), L, mid);
+        else point_update(right(p), mid + 1, R);
+        merge(tree[left(p)], tree[right(p)], tree[p]);
+    }
+
+    // lazy update
+    void lazy_update(int p, int L, int R)
+    {
+        propogate(p, L, R);
+        if(L > r || R < l) return;
+        
+        if(L >= l && R <= r) {
+            // updating current level
+            propogate(p, val);
+            propogate(p, L, R);
+            return;
+        }
+
+        int mid = (L + R) / 2;
+        lazy_update(left(p), L, mid);
+        lazy_update(right(p), mid + 1, R);
+        merge(tree[left(p)], tree[right(p)], tree[p]);
+    }
+
+public:
+    // variable
+    vector<segData> arr;
+
+    // constructors
+    SegmentTree(int n) {arr.resize(n);}
+    SegmentTree(const vector<segData> &a) {init(a);}
+
+    // unofficial methods to initialize a SegmentTree
+    void init()
+    {
+        N = arr.size();
+        tree.assign(N << 2, identity);
+        lazy.assign(N << 2, ${9:0});
+        build(1, 0, N - 1);
+    }
+
+    void init(const vector<segData> &a)
+    {
+        arr = a;
+        N = arr.size();
+        tree.assign(N << 2, identity);
+        lazy.assign(N << 2, ${9:0});
+        build(1, 0, N - 1);
+    }
+
+    // fxn that is called from user to get answer for range queries
+    segData answer(int _l, int _r)
+    {
+        l = _l;
+        r = _r;
+        return answer(1, 0, N - 1);
+    }
+
+    // fxns that is called from user for point update
+    void update(int _pos, const segData &val)
+    {
+        pos = _pos;
+        arr[pos] = val;
+        point_update(1, 0, N - 1);
+    }
+
+    // fxns that is called from user for range update
+    void update(int _l, int _r, const int &_val)
+    {
+        l = _l;
+        r = _r;
+        val = _val;
+        lazy_update(1, 0, N - 1);
+    }
+
+    // to clear SegmentTree
+    void clear()
+    {
+        N = 0;
+        arr.clear();
+        tree.clear();
+    }
+
+    // usefull fxns to make debug
+    int size() {return N;}
+    vi giveLazy() {return lazy;}
+    vector<segData> giveTree() {return tree;}
+    vector<segData> giveArray() {return arr;}
+    segData giveIdentity() {return identity;}
+    inline segData &operator [](int x) {return arr[x];}
+};
+
+string to_string(SegmentTree &a)
+{
+    #ifdef DEBUG
+        segData identity = a.giveIdentity();
+        vector<segData> segtree = a.giveTree();
+        vector<vector<segData>> tree;
+        int i, j, n, cnt;
+        
+        cnt = 0;
+        n = a.size();
+        
+        for(i = 0 ; true ; i++) {
+            tree.emplace_back(vector<segData>());
+            for(j = 0 ; j < (1 << i) ; j++) {
+                cnt++;
+                if(segtree[cnt] == identity)
+                    continue;
+                tree.back().emplace_back(segtree[cnt]);
+            }
+            if(segtree[cnt] == identity)
+                break;
+        }
+        
+        string res = "[";
+
+        res += "\n\t\tSize : ";
+        res += to_string(n);
+        
+        res += "\n\t\tArray --> ";
+        res += to_string(a.giveArray());
+        
+        res += "\n\t\tTree --> ";
+        res += to_string(tree);
+        
+        res += "\n\t\tLazy --> ";
+        res += to_string(a.giveLazy());
+        
+        res += "\n\t]\n";
+        return res;
+    #endif
+    return "";
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>csegtree</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,85 @@
+<snippet>
+    <content><![CDATA[
+class Fenwick {
+private:
+    int n;
+    vector<int> bit;
+
+    int LSOne(int x) {return x & (-x);}
+public:
+    Fenwick(int size = 0)
+    {
+        n = size;
+        bit.assign(n + 1, 0);
+    }
+
+    void add(int ind, int val)
+    {
+        for(int i = ind ; i <= n ; i += LSOne(i))
+            bit[i] += val;
+    }
+
+    int sum(int ind)
+    {
+        int res = 0;
+        for(int i = ind ; i > 0 ; i -= LSOne(i))
+            res += bit[i];
+        return res;
+    }
+
+    int sum(int l, int r) {return sum(r) - sum(l - 1);}
+
+    int lower_bound(int k)
+    {
+        int l, m, r, ans;
+
+        l = 1;
+        r = n;
+        ans = -1;
+
+        while(l <= r) {
+            m = (l + r) / 2;
+            
+            if(sum(m) >= k) {
+                ans = m;
+                r = m - 1;
+                continue;
+            }
+            l = m + 1;
+        }
+
+        return ans;
+    }
+
+    int size() {return n;}
+    vector<int> giveBIT() {return bit;}
+};
+
+string to_string(Fenwick a)
+{
+    #ifdef DEBUG
+        int n = a.size();
+        vector<int> bit = a.giveBIT();
+
+        string res = "\n[";
+        res += "\n\tsize: " + to_string(n);
+        res += "\n\tBIT: " + to_string(bit);
+        res += "\n\tSUM: ";
+
+        vector<pii> temp;
+        for(int i = 1 ; i <= n ; i++)
+            temp.push_back({i, a.sum(i)});
+        res += to_string(temp);
+        
+        res += "\n]\n";
+    return res;
+    #endif
+    
+    return "";
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>cfenwick</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

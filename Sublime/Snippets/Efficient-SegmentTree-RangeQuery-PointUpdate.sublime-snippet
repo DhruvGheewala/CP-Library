@@ -1,0 +1,90 @@
+<snippet>
+    <content><![CDATA[
+template<typename T = int>
+class SegmentTree {
+private:
+    int n;
+    T identity;
+    vector<T> tree;
+    function<T(const T&, const T&)> merge;
+
+    int left(int i) {return i << 1;}
+    int right(int i) {return i << 1 | 1;}
+
+    void build(const vector<T> &a)
+    {
+        n = a.size();
+        tree.assign(n << 1, identity);
+
+        for(int i = 0; i < n; i++)
+            tree[n + i] = a[i];
+        for(int i = n - 1; i > 0; i--)
+            tree[i] = merge(tree[left(i)], tree[right(i)]);
+    }
+public:
+    SegmentTree(const vector<T> &a, const function<T(const T&, const T&)> _merge) {init(a, _merge);}
+    SegmentTree(const vector<T> &a, const T &_iden, const function<T(const T&, const T&)> _merge) {init(a, _merge, _iden);}
+    
+    void init(const vector<T> &a, const function<T(const T&, const T&)> _merge, const T &_iden = T())
+    {
+        merge = _merge;
+        identity = _iden;
+        build(a);
+    }
+
+    // point update
+    void update(int pos, T _val)
+    {
+        for(tree[pos += n] = _val; pos >>= 1;)
+            tree[pos] = merge(tree[left(pos)], tree[right(pos)]);
+    }
+
+    // answer for [l, r]
+    T answer(int l, int r)
+    {
+        T resL, resR;
+        resL = resR = identity;
+
+        for(l += n, r += (n + 1); l < r; l >>= 1, r >>= 1) {
+            if(l & 1) resL = merge(resL, tree[l++]);
+            if(r & 1) resR = merge(tree[--r], resR);
+        }
+        return merge(resL, resR);
+    }
+
+    int size() {return n;}
+    vector<T> getTree() {return tree;}
+};
+
+template<typename T>
+string to_string(const SegmentTree<T> &_a)
+{
+    #ifdef DEBUG
+        string res;
+        SegmentTree<T> a = _a;
+        int n = a.size();
+        res = "{\n";
+        res += "\tsize: " + to_string(n) + "\n";
+        for(int i = 0; i < n; i++) {
+            bool first = true;
+            for(int j = i; j < n; j++) {
+                res += (first ? "\t" : ", ");
+                res += "[" + to_string(i);
+                res += ", " + to_string(j);
+                res += "]: ";
+                res += to_string(a.answer(i, j));
+                first = false;
+            }
+            res += "\n";
+        }
+        res += "}";
+        return res;
+    #endif
+    return "";
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>csegment</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

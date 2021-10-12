@@ -1,0 +1,14 @@
+Package Names :
+
+1. CFCompiler (UD)
+2. CoolFormat
+3. CppFastOlympicCoding
+4. Quote (UD)
+5. AceJump (use : ctrl + alt + '.')
+6. Trimmer
+7. MarkdownPreview
+8. MarkdownTOC
+9. Highlight
+
+Theme : Adaptive
+Color Scheme : Dracula
