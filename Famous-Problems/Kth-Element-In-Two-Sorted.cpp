@@ -17,6 +17,8 @@ int kthElement(vector<int> &a, vector<int> &b, int k) {
         int cut1 = (l + r) / 2;
         int cut2 = k - cut1 + 1;
 
+        // k + 1 = cut1 + cut2
+
         int left1 = (cut1 - 1 >= 0) ? a[cut1 - 1] : -inf;
         int left2 = (cut2 - 1 >= 0) ? b[cut2 - 1] : -inf;
         int right1 = (cut1 < n) ? a[cut1] : inf;

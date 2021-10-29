@@ -1,5 +1,5 @@
-vi a;
 int n, k;
+vector<int> a;
 
 // partition fxn of original quicksort
 int partition_original(int l, int r)
@@ -13,7 +13,6 @@ int partition_original(int l, int r)
         while(r >= 0 && a[r] > pivot) r--;
         if(l < r) swap(a[l], a[r]);
     }
-
     swap(a[piv], a[r]);
     return r;
 }
