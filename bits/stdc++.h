@@ -7,7 +7,7 @@
 #define DHRUV_GHEEWALA
 // #define __INCLUDE_LINE_NUMBER__
 // #define __USE_TOURIST_DEBUG__
-#define __HOLD_SCREEN_ATLAST__
+// #define __HOLD_SCREEN_ATLAST__
 
 #include <bits/stdc++.h>
 #include "debug.h"
