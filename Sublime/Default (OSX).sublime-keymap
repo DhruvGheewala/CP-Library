@@ -1,0 +1,64 @@
+[
+	// macOS port of Default (Windows).sublime-keymap. Build stays on Sublime's
+	// native cmd+b; the library's own bindings stay on ctrl+alt so they do not
+	// collide with macOS system shortcuts.
+	{
+		"keys": ["super+b"],
+		"command": "build"
+	},
+
+	{
+		"keys": ["ctrl+alt+c"],
+		"command": "cancel_build"
+	},
+
+	{
+		"keys": ["ctrl+alt+p"],
+		"command": "toggle_side_bar"
+	},
+
+	{
+		"keys": ["ctrl+alt+n"],
+		"command": "new_snippet"
+	},
+
+	{
+		"keys": ["ctrl+alt+o"],
+		"command": "open_dir",
+		"args": {"dir": "$packages"}
+	},
+
+	{
+		"keys": ["super+shift+o"],
+		"command": "open_file",
+		"args": {"file": "${packages}/User/Template-cbase-Snippet.sublime-snippet"}
+	},
+
+	{
+		"keys": ["ctrl+alt+i"],
+		"command": "coolformat",
+		"args": {"action": "quickFormat"}
+	},
+
+	{
+		"keys": ["ctrl+alt+shift+c"],
+		"command": "sublime_highlight",
+		"args": {
+			"target": "clipboard",
+			"output_type": "html"
+		}
+	},
+
+	{
+		"keys": ["ctrl+alt+shift+s"],
+		"command": "sublime_highlight",
+		"args": {
+			"target": "external",
+			"output_type": "html"
+		}
+	},
+
+	// ctrl+alt+b (cfcompiler) and ctrl+alt+s (quote) from the Windows keymap are
+	// deliberately absent: both commands come from user-defined packages that
+	// are not on Package Control, so the keys would be dead anyway.
+]

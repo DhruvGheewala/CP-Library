@@ -1,5 +1,5 @@
 {
-    "shell_cmd": "g++ \"${file}\" -std=c++1y -o \"${file_path}/${file_base_name}\" -fconcepts -I\"${file_path}/Lib\"",
+    "shell_cmd": "g++ \"${file}\" -std=c++1y -o \"${file_path}/${file_base_name}\" -fconcepts -I \"${file_path}\\bits\"",
     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
     "working_dir": "${file_path}",
     "selector": "source.c, source.c++",

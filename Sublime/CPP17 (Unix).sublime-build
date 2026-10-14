@@ -1,0 +1,29 @@
+{
+    // macOS / Linux counterpart of CPP17.sublime-build (which is Windows-only:
+    // it shells out to start, taskkill and powershell). All the real work lives
+    // in cpbuild.sh so that the GNU g++ to use is resolved at build time.
+    "shell_cmd": "bash \"${packages}/User/cpbuild.sh\" compile \"${file}\"",
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+    "working_dir": "${file_path}",
+    "selector": "source.c++, source.c",
+
+    "variants":
+    [
+        {
+            "name": "Run",
+            "shell_cmd": "bash \"${packages}/User/cpbuild.sh\" run \"${file}\""
+        },
+        {
+            "name": "Timeit",
+            "shell_cmd": "bash \"${packages}/User/cpbuild.sh\" timeit \"${file}\""
+        },
+        {
+            "name": "Run with sanitizers",
+            "shell_cmd": "bash \"${packages}/User/cpbuild.sh\" sanitize \"${file}\""
+        },
+        {
+            "name": "Doctor (check compiler)",
+            "shell_cmd": "bash \"${packages}/User/cpbuild.sh\" doctor"
+        }
+    ]
+}

@@ -35,8 +35,16 @@ auto __initialize__ = []() {
 }();
 #endif
 
+// "Color" is a cmd.exe builtin. On macOS/Linux the call would just emit
+// "sh: Color: command not found" on stderr at the end of every single run.
+#ifdef _WIN32
+	#define __setConsoleColor() system("Color 0A")
+#else
+	#define __setConsoleColor() ((void) 0)
+#endif
+
 #define exit(x)  	__holdScreen();\
-					system("Color 0A");\
+					__setConsoleColor();\
                     cline << "Run time: " << fixed << setprecision(3) << (double)clock() / CLOCKS_PER_SEC << "s" << endl;\
                     return x;\
 

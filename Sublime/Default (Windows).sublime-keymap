@@ -1,19 +1,22 @@
 [
 	{
-		"keys": ["ctrl+b"], 
+		"keys": ["ctrl+b"],
 		"command":"build"
 	},
 
+	// Needs the CFCompiler package, which is not on Package Control -- it is a
+	// user-defined package, so this key does nothing on a fresh install.
 	{
-		"keys": ["ctrl+alt+b"], 
+		"keys": ["ctrl+alt+b"],
 		"command":"cfcompiler"
 	},
 
 	{
-		"keys": ["ctrl+alt+c"], 
+		"keys": ["ctrl+alt+c"],
 		"command":"cancel_build"
 	},
-	
+
+	// Same as above: "Quote" is user-defined, not a Package Control package.
 	{
 		"keys": ["ctrl+alt+s"],
 		"command": "quote"
@@ -31,13 +34,14 @@
 
 	{
 		"keys": ["ctrl+alt+o"],
-		"command": "open_dir {\"dir\": \"$packages\"}"
+		"command": "open_dir",
+		"args": {"dir": "$packages"}
 	},
 
 	{
 		"keys": ["ctrl+shift+o"],
 		"command": "open_file",
-		"args": {"file": "C:/Users/ViralChoksi/AppData/Roaming/Sublime Text 3/Packages/User/Template-cbase-Snippet.sublime-snippet"}
+		"args": {"file": "${packages}/User/Template-cbase-Snippet.sublime-snippet"}
 	},
 
 	{
@@ -49,7 +53,7 @@
 	{
 		"keys": ["ctrl+alt+shift+c"],
         "command": "sublime_highlight",
-        "args" : { 
+        "args" : {
             "target": "clipboard",
             "output_type": "html"
         }
@@ -58,7 +62,7 @@
 	{
 		"keys": ["ctrl+alt+shift+s"],
         "command": "sublime_highlight",
-        "args" : { 
+        "args" : {
             "target": "external",
             "output_type": "html"
         }
